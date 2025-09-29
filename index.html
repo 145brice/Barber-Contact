@@ -64,6 +64,26 @@
             border-color: #667eea;
         }
         
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            margin-top: 2px;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
         .submit-btn {
             width: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -136,6 +156,11 @@
                 <div class="error-message" id="phoneError"></div>
             </div>
             
+            <div class="checkbox-group">
+                <input type="checkbox" id="textConsent" name="textConsent">
+                <label for="textConsent">I agree to receive text messages from Nashville Mobile Cuts regarding my inquiry.</label>
+            </div>
+            
             <button type="submit" class="submit-btn" id="submitBtn">
                 Submit
             </button>
@@ -153,6 +178,7 @@
             const submitBtn = document.getElementById('submitBtn');
             const nameInput = document.getElementById('name');
             const phoneInput = document.getElementById('phone');
+            const textConsentCheckbox = document.getElementById('textConsent');
             const nameError = document.getElementById('nameError');
             const phoneError = document.getElementById('phoneError');
             const thanksMessage = document.getElementById('thanksMessage');
@@ -164,7 +190,8 @@
             // Get form data
             const formData = {
                 name: nameInput.value.trim(),
-                phone: phoneInput.value.trim()
+                phone: phoneInput.value.trim(),
+                textConsent: textConsentCheckbox.checked
             };
             
             // Basic validation
@@ -195,6 +222,7 @@
                         access_key: '46ce804a-e03b-44be-a8f1-896d62d35f47',
                         name: formData.name,
                         phone: formData.phone,
+                        textConsent: formData.textConsent ? 'Yes' : 'No',
                         to: 'nashvillemobilecuts@gmail.com',
                         subject: 'New Lead from Nashville Mobile Cuts Website',
                         from_name: formData.name,
@@ -214,6 +242,7 @@
                     // Reset form
                     nameInput.value = '';
                     phoneInput.value = '';
+                    textConsentCheckbox.checked = false;
                 } else {
                     throw new Error('Failed to send message');
                 }
